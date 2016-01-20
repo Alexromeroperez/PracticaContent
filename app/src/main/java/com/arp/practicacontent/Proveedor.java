@@ -1,4 +1,4 @@
-package com.arp.practicacontent.provider;
+package com.arp.practicacontent;
 
 import android.content.ContentProvider;
 import android.content.ContentUris;

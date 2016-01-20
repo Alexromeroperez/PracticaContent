@@ -11,12 +11,9 @@
         android:theme="@style/AppTheme">
         <activity android:name=".MainActivity">
             <provider
-                android:name="MusicaAndroid"
-                android:authorities="com.arp.practicacontent.provider.Proveedor"
-                android:enabled="true"
-                android:exported="true" >
-
-            </provider>
+                android:name=".MusicaAndroid"
+                android:authorities="com.arp.practicacontent.Proveedor"
+                android:exported="false" />
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
