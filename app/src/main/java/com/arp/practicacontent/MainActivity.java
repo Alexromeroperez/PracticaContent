@@ -39,7 +39,6 @@ public class MainActivity extends AppCompatActivity {
         cur = getContentResolver().query(android.provider.MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, null,
                 MediaStore.Audio.Media.IS_MUSIC + " = 1", null, null);
         ad=new Adaptador(this,cur);
-        Log.v("LA PUYA URI",Contrato.TablaInterprete.CONTENT_URI+"");
         lv.setAdapter(ad);
         cur.moveToFirst();
         while(cur.moveToNext()){

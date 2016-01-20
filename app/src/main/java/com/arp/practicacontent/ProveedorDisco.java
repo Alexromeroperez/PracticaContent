@@ -14,18 +14,18 @@ import com.arp.practicacontent.provider.Ayudante;
 import com.arp.practicacontent.provider.Contrato;
 
 /**
- * Created by Alex on 19/01/2016.
+ * Created by Alex on 20/01/2016.
  */
-public class Proveedor extends ContentProvider {
+public class ProveedorDisco extends ContentProvider {
 
     public static final UriMatcher convierteUri2Int;
-    public static final int INTERPRETES = 1;
-    public static final int INTERPRETE_ID = 2;
+    public static final int DISCOS = 1;
+    public static final int DISCO_ID = 2;
 
     static {
         convierteUri2Int = new UriMatcher(android.content.UriMatcher.NO_MATCH);
-        convierteUri2Int.addURI(Contrato.TablaInterprete.AUTHORITY, Contrato.TablaInterprete.TABLA, INTERPRETES);
-        convierteUri2Int.addURI(Contrato.TablaInterprete.AUTHORITY, Contrato.TablaInterprete.TABLA+"/#", INTERPRETE_ID);
+        convierteUri2Int.addURI(Contrato.TablaDisco.AUTHORITY, Contrato.TablaDisco.TABLA, DISCOS);
+        convierteUri2Int.addURI(Contrato.TablaDisco.AUTHORITY, Contrato.TablaDisco.TABLA+"/#", DISCO_ID);
     }
 
     private Ayudante adb;
@@ -44,21 +44,22 @@ public class Proveedor extends ContentProvider {
         long idActividad;
         Cursor c;
         switch (match) {
-            case INTERPRETES:
-                c = db.query(Contrato.TablaInterprete.TABLA, projection,
+            case DISCOS:
+                c = db.query(Contrato.TablaDisco.TABLA, projection,
                         selection, selectionArgs, null, null, sortOrder);
                 break;
-            case INTERPRETE_ID:
+            case DISCO_ID:
                 idActividad = ContentUris.parseId(uri);
-                c = db.query(Contrato.TablaInterprete.TABLA, projection,
-                        Contrato.TablaInterprete._ID + " = ?",
+                c = db.query(Contrato.TablaDisco.TABLA, projection,
+                        Contrato.TablaDisco._ID + " = ?",
                         new String[]{idActividad + ""}, null, null, sortOrder);
                 break;
             default:
                 throw new IllegalArgumentException("URI no soportada: " + uri);
         }
-        c.setNotificationUri(getContext().getContentResolver(),
-                Contrato.TablaInterprete.CONTENT_URI);
+       /* c.setNotificationUri(getContext().getContentResolver(),
+                Contrato.TablaCancion.CONTENT_URI);*/
+
         return c;
 
     }
@@ -73,21 +74,22 @@ public class Proveedor extends ContentProvider {
         SQLiteDatabase db;
         Uri uri_actividad;
         long rowId;
-        if ( match!= INTERPRETES ) {
+        if (match != DISCOS ) {
             throw new IllegalArgumentException("URI desconocida: " + uri);
         }
         if (values == null) {
             throw new IllegalArgumentException("Values null");
         }
         switch (match){
-            case INTERPRETE_ID:
+            case DISCO_ID:
                 db = adb.getWritableDatabase();
-                rowId = db.insert(Contrato.TablaInterprete.TABLA, null, values);
+                rowId = db.insert(Contrato.TablaDisco.TABLA, null, values);
 
-                    uri_actividad = ContentUris.withAppendedId(Contrato.
-                            TablaInterprete.CONTENT_URI, rowId);
-                    getContext().getContentResolver().notifyChange(uri_actividad, null);
-                    return uri_actividad;
+                uri_actividad = ContentUris.withAppendedId(Contrato.
+                        TablaDisco.CONTENT_URI, rowId);
+                getContext().getContentResolver().notifyChange(uri_actividad, null);
+                return uri_actividad;
+
             default:
                 throw new SQLException("Error al insertar fila en : " + uri);
         }
@@ -101,17 +103,18 @@ public class Proveedor extends ContentProvider {
         long idActividad;
         int affected;
         switch (match) {
-            case INTERPRETES:
-                affected = db.delete(Contrato.TablaInterprete.TABLA,
+            case DISCOS:
+                affected = db.delete(Contrato.TablaDisco.TABLA,
                         selection,
                         selectionArgs);
                 break;
-            case INTERPRETE_ID:
+            case DISCO_ID:
                 idActividad = ContentUris.parseId(uri);
-                affected = db.delete(Contrato.TablaInterprete.TABLA,
-                        Contrato.TablaInterprete._ID + "= ?", new String[]{idActividad+""});
+                affected = db.delete(Contrato.TablaDisco.TABLA,
+                        Contrato.TablaDisco._ID + "= ?", new String[]{idActividad+""});
                 // Notificar cambio asociado a la uri
                 break;
+
             default:
                 throw new IllegalArgumentException("Elemento actividad desconocido: " +
                         uri);
@@ -127,18 +130,17 @@ public class Proveedor extends ContentProvider {
         long id;
         int affected;
         switch (convierteUri2Int.match(uri)) {
-            case INTERPRETES:
-                affected = db.update(Contrato.TablaInterprete.TABLA, values,
+            case DISCOS:
+                affected = db.update(Contrato.TablaDisco.TABLA, values,
                         selection, selectionArgs);
                 break;
-            case INTERPRETE_ID:
+            case DISCO_ID:
                 idActividad = uri.getPathSegments().get(1);
                 idActividad = uri.getLastPathSegment();
                 id = ContentUris.parseId(uri);
-                affected = db.update(Contrato.TablaInterprete.TABLA, values,
-                        Contrato.TablaInterprete._ID + "= ? ", new String[]{idActividad});
+                affected = db.update(Contrato.TablaDisco.TABLA, values,
+                        Contrato.TablaDisco._ID + "= ? ", new String[]{idActividad});
                 break;
-
             default:
                 throw new IllegalArgumentException("URI desconocida: " + uri);
         }
@@ -150,10 +152,10 @@ public class Proveedor extends ContentProvider {
     @Override
     public String getType(Uri uri) {
         switch (convierteUri2Int.match(uri)) {
-            case INTERPRETES:
-                return Contrato.TablaInterprete.MULTIPLE_MIME;
-            case INTERPRETE_ID:
-                return Contrato.TablaInterprete.SINGLE_MIME;
+            case DISCOS:
+                return Contrato.TablaDisco.MULTIPLE_MIME;
+            case DISCO_ID:
+                return Contrato.TablaDisco.SINGLE_MIME;
             default:
                 throw new IllegalArgumentException(
                         "Tipo de actividad desconocida: " + uri);

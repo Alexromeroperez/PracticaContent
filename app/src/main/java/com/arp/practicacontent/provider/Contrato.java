@@ -15,7 +15,7 @@ public class Contrato {
         public static final String NOMBRE = "nombre";
         public static final String INTERPRETE = "interprete";
 
-        public final static String AUTHORITY = "com.arp.practicacontent.Proveedor";
+        public final static String AUTHORITY = "com.arp.practicacontent.ProveedorDisco";
         public final static Uri CONTENT_URI = Uri.parse("content://" + AUTHORITY + "/" + TABLA);
 
         public final static String SINGLE_MIME = "vnd.android.cursor.item/vnd." + AUTHORITY + TABLA;
@@ -39,7 +39,7 @@ public class Contrato {
         public static final String TITULO = "titulo";
         public static final String IDDISCO = "iddisco";
 
-        public final static String AUTHORITY = "com.arp.practicacontent.Proveedor";
+        public final static String AUTHORITY = "com.arp.practicacontent.ProveedorCancion";
         public final static Uri CONTENT_URI = Uri.parse("content://" + AUTHORITY + "/" + TABLA);
 
         /*Informa si se le pasa un solo valor o varios valores**/
